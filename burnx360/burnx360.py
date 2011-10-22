@@ -36,7 +36,7 @@ __app__ = 'burnX360'
 __version__ = '0.1'
 __author__ = [u"Daniel 'yp2' Dereziński"]
 __copyright__ = u"Copyright 2009 Daniel 'yp2' Derezinski"
-__locale_dir__ = '/home/daniel/projekty/burnx360/locale/'
+__locale_dir__ = '/home/daniel/git/burnx360/burnx360/locale/'
 
 locale.setlocale(locale.LC_ALL, '')
 gettext.bindtextdomain(__app__, __locale_dir__)
@@ -55,9 +55,9 @@ print __opis__
 libc = ctypes.CDLL('libc.so.6')
 libc.prctl(15, __app__+'\0', 0, 0, 0)
 
-gui_file = os.path.expanduser('/home/daniel/projekty/burnx360/gui.glade')
+gui_file = os.path.expanduser('/home/daniel/git/burnx360/burnx360/gui.glade')
 cfg_file = os.path.expanduser('~/.%s/%s.cfg' % (__app__, __app__))
-ico_file = os.path.expanduser('/home/daniel/projekty/burnx360/icon.png')
+ico_file = os.path.expanduser('/home/daniel/git/burnx360/burnx360/icon.png')
 
 options = {}
 d_options = {'dev_dvd': '/dev/sr0',
@@ -69,9 +69,9 @@ d_options = {'dev_dvd': '/dev/sr0',
 file_types = ['.iso', '.bin', '.000']
 
 #ZMIENIĆ NA KATALOG INSTALCYJNY DLA PROGRAMU
-burn_app_path ={'burn': os.path.expanduser('/home/daniel/projekty/burnx360/burn.sh'), 
-                'test_burn' : os.path.expanduser('/home/daniel/projekty/burnx360/test_burn.sh')}
-licence = os.path.expanduser('/home/daniel/projekty/burnx360/LICENCE')
+burn_app_path ={'burn': os.path.expanduser('/home/daniel/git/burnx360/burnx360/burn.sh'), 
+                'test_burn' : os.path.expanduser('/home/daniel/git/burnx360/burnx360/test_burn.sh')}
+licence = os.path.expanduser('/home/daniel/git/burnx360/burnx360/LICENCE')
 
 class Gui:
     def __init__(self):
