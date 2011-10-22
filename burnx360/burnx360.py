@@ -33,23 +33,17 @@ import locale
 import gettext
 
 __app__ = 'burnX360'
-__version__ = '0.1'
+__version__ = 'develop'
 __author__ = [u"Daniel 'yp2' Dereziński"]
 __copyright__ = u"Copyright 2009 Daniel 'yp2' Derezinski"
 __locale_dir__ = '/home/daniel/git/burnx360/burnx360/locale/'
 
-locale.setlocale(locale.LC_ALL, '')
-gettext.bindtextdomain(__app__, __locale_dir__)
-gettext.textdomain(__app__)
-_ = gettext.gettext
-
-__opis__ = _(u"Program do nagrywania obrazów kopii zapasowych płyt dla Xbox360.\n\
+__opis__ = u"Program do nagrywania obrazów kopii zapasowych płyt dla Xbox360.\n\
             UŻYWASZ PROGRAMU NA WŁASNĄ ODPOWIEDZIALNOŚĆ ORAZ ZGODNIE Z PRAWEM.\n\
             PROGRAM SŁUŻY DO NAGRYWANIE KOPII ZAPASOWYCH PŁYT LEGALNIE ZAKUPIONYCH PRZEZ UŻYTKOWNIKA.\n\
             AUTOR NIE PONOSI ŻADNEJ ODPOWIEDZIALNOŚCI MATERIALNEJ ZA BŁĘDY PROGRAMU.\n\n\
             ZOSTAŁEŚ/ZOSTAŁAŚ OSTRZEŻONY/OSTRZEŻONA.\n\n\
-            Więcje informacji znajdziesz w pliku README (/usr/share/doc/burnx360/README).")
-print __opis__            
+            Więcje informacji znajdziesz w pliku README (/usr/share/doc/burnx360/README)."           
 
 ##Nazwa procesu
 libc = ctypes.CDLL('libc.so.6')
@@ -61,15 +55,19 @@ ico_file = os.path.expanduser('/home/daniel/git/burnx360/burnx360/icon.png')
 
 options = {}
 d_options = {'dev_dvd': '/dev/sr0',
-            'layer_break': '1913760',
-            'burn_speed': '2',
-            'last_used_dir': '~',
-            'terminal': '1',
-            'img_path': ''}
+             'layer_break': '1913760',
+             'xgd3_layer_break': '2086912',
+             'truncate_size': '8547991552',
+             'burn_speed': '2',
+             'buffer': '32',
+             'last_used_dir': '~',
+             'terminal': '1',
+             'img_path': ''}
 file_types = ['.iso', '.bin', '.000']
 
 #ZMIENIĆ NA KATALOG INSTALCYJNY DLA PROGRAMU
-burn_app_path ={'burn': os.path.expanduser('/home/daniel/git/burnx360/burnx360/burn.sh'), 
+burn_app_path ={'burn': os.path.expanduser('/home/daniel/git/burnx360/burnx360/burn.sh'),
+                'xgd3_burn': os.path.expanduser('/home/daniel/git/burnx360/burnx360/xgd3_burn.sh'), 
                 'test_burn' : os.path.expanduser('/home/daniel/git/burnx360/burnx360/test_burn.sh')}
 licence = os.path.expanduser('/home/daniel/git/burnx360/burnx360/LICENCE')
 
@@ -86,11 +84,12 @@ class Gui:
                                   'on_main_window_destroy_event': self.quit,
                                   'on_main_window_destroy': self.quit,
                                   'on_rev_options_clicked': self.rev_options,
-                                  'on_notebook1_switch_page': self.rev_options,
+                                  'on_notebook1_switch_page': self.update_options,
                                   'on_save_opt_clicked': self.save_option_to_dict,
                                   'on_quit_clicked': self.quit,
                                   'on_filechooser_clicked': self.filechooser_dialog,
                                   'on_burn_clicked': self.choose_action,
+                                  'on_xgd3_burn_clicked': self.choose_action,
                                   'on_run_test_clicked': self.choose_action,
                                   'on_run_abgx360gui_clicked': self.run_abgx360_gui,
                                   'on_about_clicked': self.about_dialog})
@@ -105,10 +104,6 @@ class Gui:
         obj = self.gui.get_objects()
         for ele in obj:
             self.obj[gtk.Buildable.get_name(ele)] = ele
-        
-        #gtk.Button.get_s
-        print obj[-1].get_events()
-        print self.obj
         
     def filechooser_dialog(self, w=None, d=None):
         dialog = gtk.FileChooserDialog("Otwórz...",
@@ -154,37 +149,66 @@ class Gui:
         #ustawienia startowe oraz defincjie niektórych widgetów
         self.dev_dvd = self.obj['dev_dvd']
         
+        #layer_break
+        adj = gtk.Adjustment(lower=0, upper=99999999, step_incr=1, page_incr=10, page_size=10)
+        self.layer_break = gtk.SpinButton()
+        self.obj['table1'].attach(self.layer_break, left_attach=1, right_attach=2, top_attach=2, bottom_attach=3)
+        self.layer_break.set_adjustment(adj)
+        self.layer_break.show()
+        
+        #layer_break XGD3 bez LT-MAX
+        adj = gtk.Adjustment(lower=0, upper=99999999, step_incr=1, page_incr=10, page_size=10)
+        self.xgd3_layer_break = gtk.SpinButton()
+        self.obj['table1'].attach(self.xgd3_layer_break, left_attach=1, right_attach=2, top_attach=3, bottom_attach=4)
+        self.xgd3_layer_break.set_adjustment(adj)
+        self.xgd3_layer_break.show()
+        
+        #rozmiar dla truncate - przycięcie obrazu przed nagrywaniem
+        adj = gtk.Adjustment(lower=0, upper=9999999999, step_incr=1, page_incr=10, page_size=10)
+        self.truncate_size = gtk.SpinButton()
+        self.obj['table1'].attach(self.truncate_size, left_attach=1, right_attach=2, top_attach=4, bottom_attach=5)
+        self.truncate_size.set_adjustment(adj)
+        self.truncate_size.show()
+        
+        
         #prędkość nagrywania
         self.burn_speeds = ['x1', 'x2', 'x4', 'x8']
         self._burn_speeds = ['1', '2', '4', '8']
         self.burn_speed = gtk.combo_box_new_text()
         self.burn_speed.show()
-        self.obj['table1'].attach(self.burn_speed, left_attach=1, right_attach=2, top_attach=2, bottom_attach=3)
+        self.obj['table1'].attach(self.burn_speed, left_attach=1, right_attach=2, top_attach=5, bottom_attach=6)
         for ele in self.burn_speeds:
             self.burn_speed.append_text(ele)
             
-        #layer_break
-        adj = gtk.Adjustment(lower=0, upper=99999999, step_incr=1, page_incr=10, page_size=10)
-        self.layer_break = gtk.SpinButton()
-        self.obj['table1'].attach(self.layer_break, left_attach=1, right_attach=2, top_attach=1, bottom_attach=2)
-        self.layer_break.set_adjustment(adj)
-        self.layer_break.show()
+        #bufor dla growisofs
+        adj = gtk.Adjustment(lower=0, upper=9999, step_incr=1, page_incr=10, page_size=10)
+        self.buffer = gtk.SpinButton()
+        self.obj['table1'].attach(self.buffer, left_attach=1, right_attach=2, top_attach=6, bottom_attach=7)
+        self.buffer.set_adjustment(adj)
+        self.buffer.show()
         
         #terminal
         self.terminals = ['xterm', 'gnome-terminal', 'terminator']
         self.terminal = gtk.combo_box_new_text()
         self.terminal.show()
-        self.obj['table1'].attach(self.terminal, left_attach=1, right_attach=2, top_attach=3, bottom_attach=4)
+        self.obj['table1'].attach(self.terminal, left_attach=1, right_attach=2, top_attach=7, bottom_attach=8)
         for ele in self.terminals:
             self.terminal.append_text(ele)
+            
+    def update_options(self, w=None, d=None, page_num=None):
+        self.save_option_to_dict()
 
     def rev_options(self,w=None, d=None, d_1=None):
+        options.update(d_options)
         self.set_options()
     
     def save_option_to_dict(self, w=None, d=None):
         options['dev_dvd'] = self.dev_dvd.get_text()
         options['layer_break'] = str(int(self.layer_break.get_value()))
+        options['xgd3_layer_break'] = str(int(self.xgd3_layer_break.get_value()))
+        options['truncate_size'] =  str(int(self.truncate_size.get_value()))
         options['burn_speed'] = str(self.burn_speed.get_active())
+        options['buffer'] =  str(int(self.buffer.get_value()))
         options['terminal'] = str(self.terminal.get_active())
         
     def init_options(self):
@@ -205,10 +229,13 @@ class Gui:
             self.set_options()
     
     def set_options(self):
-        self.dev_dvd.set_text(options['dev_dvd'])
-        self.layer_break.set_value(int(options['layer_break']))
-        self.burn_speed.set_active(int(options['burn_speed']))
-        self.terminal.set_active(int(options['terminal']))
+        self.dev_dvd.set_text(options.get('dev_dvd', d_options['dev_dvd']))
+        self.layer_break.set_value(int(options.get('layer_break', d_options['layer_break'])))
+        self.xgd3_layer_break.set_value(int(options.get('xgd3_layer_break', d_options['xgd3_layer_break'])))
+        self.truncate_size.set_value(int(options.get('truncate_size', d_options['truncate_size'])))
+        self.burn_speed.set_active(int(options.get('burn_speed', d_options['burn_speed'])))
+        self.buffer.set_value(int(options.get('buffer', d_options['buffer'])))
+        self.terminal.set_active(int(options.get('terminal', d_options['terminal'])))
     
     def dialog_error(self, mes):
         dialog = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, mes)
@@ -241,14 +268,14 @@ class Gui:
     def write_options(self): 
         try:
             _cfg_file = os.path.expanduser(cfg_file)            
-            file = open(_cfg_file, 'w')
+            f = open(_cfg_file, 'w')
             for k,v in options.iteritems():
                 if k == 'img_path':
                     line = '%s=%s\n' % (k,'')
-                    file.write(line)
+                    f.write(line)
                 else:
                     line = '%s=%s\n' % (k,v)
-                    file.write(line)
+                    f.write(line)
         except:
             self.dialog_error("Nie można zapsiać pliku z opcjami.")
             sys.exit(2)
@@ -270,30 +297,57 @@ class Gui:
         #TODO: sprawdzenie ścieżki do pliku
         path = self.check_path()
         if path is True:
-            self.action(w.get_name())
+            self.action(self.get_w_name(w))
         else:
             print 'False'
-            
+    
+    def get_w_name(self, widget):
+        # obejście problemu nazwy widgetu, widget.get_name() nie działa
+        # działa gtk.Buildable.get_name(widget)
+        return gtk.Buildable.get_name(widget)
+    
     def action(self, act):
         if act == 'run_test':
             #uruchom test
             self.app(burn_app_path['test_burn'])
-        elif act == 'burn':#
-            #uruchom nagrywanie
+        elif act == 'burn':
+            #uruchom nagrywanie xgd2
             self.app(burn_app_path['burn'])
+        elif act == 'xgd3_burn':
+            #uruchom nagrywanie xgd3
+            self.app(burn_app_path['xgd3_burn'], 'xgd3')
         else:
             self.dialog_error('Błąd. Nie wiem co robić.\nBłąd raczej krytyczny :(')
 
-    def app(self, app):
+    def app(self, app, iso_format='xgd2'):
+        
+        #wspólne opcje dla różnych formatów zapisu iso
         terminal = self.terminals[int(options['terminal'])]
-        layer_break = options['layer_break']
-        dev_dvd = options['dev_dvd']
         burn_speed = self._burn_speeds[int(options['burn_speed'])]
-        img_path = '"%s"' % options['img_path']
+        img_path = '%s' % options['img_path']
+        dev_dvd = options['dev_dvd']
+        buffer = options['buffer']
         
+        #wybór formatu zapisu
+        if iso_format == 'xgd2':
+            # xgd2
+            layer_break = options['layer_break']
+            
+            #argumenty xgd2
+            args = [app, layer_break, buffer, burn_speed, dev_dvd, img_path]
+            
+        elif iso_format == 'xgd3':
+            # xgd3
+            print options
+            print app
+            layer_break = options['xgd3_layer_break']
+            truncate_size = options['truncate_size']
+            
+            #przycięcie samego iso przy pomocy truncate
+            
+            #argumenty xgd3
+            args = [app, truncate_size, layer_break, buffer, burn_speed, dev_dvd, img_path]
         
-        
-        args = [app, layer_break, burn_speed, dev_dvd, img_path]
         args = ' '.join(args)
         if terminal == 'xterm':
             subprocess.Popen([terminal, '-bg', 'black', '-fg', 'white', '-e', args])

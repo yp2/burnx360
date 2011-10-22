@@ -18,8 +18,12 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 #
+#
 
-growisofs -dry-run -use-the-force-luke=dao -use-the-force-luke=break:$1 --use-the-force-luke=bufsize:$2M -dvd-compat -speed=$3 -Z $4="$5"
+# $6 - path to iso
+
+truncate --size=$1 "$6"
+growisofs -use-the-force-luke=dao -use-the-force-luke=break:$2 --use-the-force-luke=bufsize:$3M -dvd-compat -speed=$4 -Z $5="$6"
 
 echo " "
 echo "Press any Key to continue"

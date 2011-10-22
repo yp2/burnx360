@@ -1,4 +1,4 @@
-?package(gkonap):needs="X11" \
+?package(burnx360):needs="X11" \
         section="Applications/File Management" \
         title="burnX360" \
         command="/usr/bin/burnx360" \

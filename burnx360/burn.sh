@@ -19,7 +19,7 @@
 #       MA 02110-1301, USA.
 #
 
-growisofs -use-the-force-luke=dao -use-the-force-luke=break:$1 --use-the-force-luke=bufsize:128M -dvd-compat -speed=$2 -Z $3="$4"
+growisofs -use-the-force-luke=dao -use-the-force-luke=break:$1 --use-the-force-luke=bufsize:$2M -dvd-compat -speed=$3 -Z $4="$5"
 
 echo " "
 echo "Press any Key to continue"

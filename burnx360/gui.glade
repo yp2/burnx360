@@ -22,34 +22,48 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <signal name="switch_page" handler="on_notebook1_switch_page"/>
+            <signal name="change_current_page" handler="on_notebook1_change_current_page"/>
             <child>
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <child>
-                  <object class="GtkHBox" id="hbox2">
+                  <object class="GtkLabel" id="label20">
                     <property name="visible">True</property>
+                    <property name="label" translatable="yes">Wybierz obraz iso do nagrania. 
+Skorzystaj z odpowiednich zak&#x142;adek aby nagra&#x107; obraz wykorzystuj&#x105;c w&#x142;a&#x15B;ciwy format.</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                    <property name="wrap">True</property>
+                  </object>
+                  <packing>
+                    <property name="padding">7</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkTable" id="table3">
+                    <property name="visible">True</property>
+                    <property name="n_columns">3</property>
                     <child>
                       <object class="GtkLabel" id="label13">
+                        <property name="height_request">10</property>
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Obraz:</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="padding">4</property>
-                        <property name="position">0</property>
+                        <property name="y_padding">10</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkEntry" id="image_name">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip_text" translatable="yes">Plik obrazu p&#x142;yty.</property>
                         <property name="editable">False</property>
                         <property name="invisible_char">&#x25CF;</property>
                       </object>
                       <packing>
-                        <property name="position">1</property>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
                       </packing>
                     </child>
                     <child>
@@ -57,19 +71,27 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Otw&#xF3;rz plik obrazu.</property>
                         <property name="image">image4</property>
                         <signal name="clicked" handler="on_filechooser_clicked"/>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="position">0</property>
+                    <property name="expand">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label19">
+                    <property name="visible">True</property>
+                  </object>
+                  <packing>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -78,46 +100,31 @@
                     <property name="n_rows">3</property>
                     <property name="n_columns">2</property>
                     <child>
-                      <object class="GtkLabel" id="label8">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Wykonaj test:</property>
-                      </object>
-                    </child>
-                    <child>
                       <object class="GtkButton" id="run_test">
-                        <property name="label">gtk-execute</property>
+                        <property name="label">Wykonaj test nagrywania</property>
+                        <property name="height_request">40</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image_position">right</property>
                         <signal name="clicked" handler="on_run_test_clicked"/>
                       </object>
                       <packing>
-                        <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
+                        <property name="y_padding">4</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkButton" id="run_abgx360gui">
-                        <property name="label" translatable="yes">abgx360gui</property>
+                        <property name="label" translatable="yes">Uruchom Abgx360gui</property>
+                        <property name="height_request">40</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <signal name="clicked" handler="on_run_abgx360gui_clicked"/>
                       </object>
                       <packing>
-                        <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label9">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Uruchom:</property>
-                      </object>
-                      <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
                       </packing>
@@ -130,19 +137,21 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="position">1</property>
+                    <property name="expand">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="tab_expand">True</property>
+              </packing>
             </child>
             <child type="tab">
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">G&#x142;&#xF3;wne</property>
               </object>
-              <packing>
-                <property name="tab_fill">False</property>
-              </packing>
             </child>
             <child>
               <object class="GtkVBox" id="vbox3">
@@ -153,7 +162,7 @@
                     <property name="label" translatable="yes">&lt;b&gt;UWAGA tylko XGD2&lt;/b&gt;
 Tylko dla starego formatu zapisywania danych na p&#x142;ytach. 
 Layer Break dla takich obraz&#xF3;w powinien wynosi&#x107;: 1913760.
-Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
+Jak nie jeste&#x15B; pewny/a sprawd&#x17A; w pliku .dvd.</property>
                     <property name="use_markup">True</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>
@@ -174,9 +183,11 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
                 <child>
                   <object class="GtkButton" id="burn">
                     <property name="label" translatable="yes">Nagraj obraz XGD2</property>
+                    <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="image">image2</property>
                     <signal name="clicked" handler="on_burn_clicked"/>
                   </object>
                   <packing>
@@ -195,7 +206,6 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
               </object>
               <packing>
                 <property name="position">1</property>
-                <property name="tab_fill">False</property>
               </packing>
             </child>
             <child>
@@ -206,11 +216,11 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">&lt;b&gt;UWAGA tylko XGD3&lt;/b&gt;
 &lt;b&gt;Metoda BEZ nagrywarki z LT-MAX !!!&lt;/b&gt;
-Tylko dla starego formatu zapisywania danych na p&#x142;ytach. 
+Nowy formatu zapisywania danych na p&#x142;ytach. 
 Layer Break dla takich obraz&#xF3;w powinien wynosi&#x107;: 2133520 lub 2086912. W pliku .dvd powinna znajdowa&#x107; si&#x119; pierwsza warto&#x15B;&#x107;. 
-Nagrywaj&#x105;c obraz tym programem zostanie on przed nagraniem przyci&#x119;ty do odpowiedniego rozmiaru: 8547991552 bajt&#xF3;w. 
+Nagrywaj&#x105;c obraz tym sposobem zostanie on przed nagraniem przyci&#x119;ty do odpowiedniego rozmiaru: 8547991552 bajt&#xF3;w. 
 Proces ten usuwa b&#x142;&#x119;dy przy nagrywaniu.
-Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
+Jak nie jeste&#x15B; pewny/a sprawd&#x17A; w pliku .dvd.</property>
                     <property name="use_markup">True</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>
@@ -231,9 +241,11 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
                 <child>
                   <object class="GtkButton" id="xgd3_burn">
                     <property name="label" translatable="yes">Nagraj obraz XGD3</property>
+                    <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_xgd3_burn_clicked"/>
                   </object>
                   <packing>
                     <property name="position">2</property>
@@ -251,7 +263,6 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
               </object>
               <packing>
                 <property name="position">2</property>
-                <property name="tab_fill">False</property>
               </packing>
             </child>
             <child>
@@ -271,6 +282,7 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
                 <property name="visible">True</property>
                 <property name="n_rows">10</property>
                 <property name="n_columns">2</property>
+                <property name="row_spacing">4</property>
                 <child>
                   <object class="GtkLabel" id="label5">
                     <property name="visible">True</property>
@@ -406,30 +418,6 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <object class="GtkLabel" id="label18">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Bufor w MB:</property>
@@ -438,6 +426,30 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
                     <property name="top_attach">6</property>
                     <property name="bottom_attach">7</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -448,16 +460,14 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">Opcje</property>
+                <signal name="focus_out_event" handler="on_label2_focus_out_event"/>
               </object>
               <packing>
                 <property name="position">5</property>
-                <property name="tab_fill">False</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
             <property name="position">2</property>
           </packing>
         </child>
@@ -517,10 +527,6 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
     <property name="visible">True</property>
     <property name="stock">gtk-execute</property>
   </object>
-  <object class="GtkImage" id="image4">
-    <property name="visible">True</property>
-    <property name="stock">gtk-open</property>
-  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="stock">gtk-cdrom</property>
@@ -528,5 +534,9 @@ Jak nie jeste&#x15B; pewny/a sprwad&#x17A; w pliku .dvd.</property>
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
     <property name="stock">gtk-jump-to</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="stock">gtk-open</property>
   </object>
 </interface>
