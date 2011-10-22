@@ -36,7 +36,6 @@ __app__ = 'burnX360'
 __version__ = '0.2'
 __author__ = [u"Daniel 'yp2' Dereziński"]
 __copyright__ = u"Copyright 2009,2011 Daniel 'yp2' Derezinski"
-__locale_dir__ = '/home/daniel/git/burnx360/burnx360/locale/'
 
 __opis__ = u"Program do nagrywania obrazów kopii zapasowych płyt dla Xbox360.\n\
             UŻYWASZ PROGRAMU NA WŁASNĄ ODPOWIEDZIALNOŚĆ ORAZ ZGODNIE Z PRAWEM.\n\
