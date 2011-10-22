@@ -1,0 +1,85 @@
+burnX360
+
+PRZEZNACZENIE:
+Program służy do nagrywanie kopii zapasowych płyt dla Xbox360 legalnie nabytych przez użytkownika.
+
+AUTOR NIE PONOSI ŻADNYCH KONSEKWENCJI MATERIALNYCH ORAZ PRAWNYCH ZA BŁĘDY W PROGRAMIE, WYKORZYSTANIE PROGRAMU W CELU NIEZGODNYM Z PRZEZNACZENIEM OPROGRAMOWANIA.
+
+Aby wykorzystać z opcji 'Uruchomienie abgx360gui' (program do sprawdzania poprawności kopii zapasowych) należy go najpierw ściągnąć i skompilować.
+
+INSTALACJA abgx360gui (ubuntu):
+
+ - instalujemy paczkę: 
+	sudo apt-get install libwxbase2.8-dev
+ - ściągamy archiwum abgx360 ze strony: 
+	http://www.abgx360.net/download.html ;
+ - rozpakowujemy archiwum;
+ - przechodzimy do rozpakowanego katalogu;
+ - wdajemy polecenia:
+	./configure
+	make
+	sudo make install
+
+ - następnie ściągamy z tej samej strony archiwum abgx360gui;
+ - rozpakowujemy;
+ - przechodzimy do rozpakowanego katalogu;
+ - wydajemy polecenia:
+	./configure
+	make
+	chmod +x abgx360gui
+	sudo cp abgx360gui /usr/local/bin
+
+ - ściągamy z tej samej strony abgx360data.tar.gz;
+ - rozpakowujemy z archiwum katalog '.abgx360' do katalogu home użytkownika lub użytkowników;
+ 
+ - opis konfiguracji abgx360gui:
+	http://x360iso.org/poradniki-iso/6365-sprawdzanie-obrazu-iso-stealth-za-pomoca-abgx360.html ; 
+	polecam zapoznać się z tym opisem. Pozwoli on na poprawne działanie kopi płyty.
+
+
+OPIS OPCJI PROGRAMU burnX360:
+ 
+	NAGRYWARKA DVD - tu podajemy ścieżkę do nagrywarki (urządzenia) w formacie /dev/xxx. Aby sprawdzić ten parametr uruchamiamy k3b przechodzimy do 'Ustawień' część 'Urządzenia' szukamy danych 'Napędy nagrywarek' i w punkcie 'Systemowa nazwa urządzenia' znajduję się nasza ścieżka.
+
+	LAYER BREAK - ten parametr jest zawarty w pliku *.dvd. Jest on także tworzony (prawdopodobnie) przez abgx360. Parametr ten powinien wynosić 1913760 i nie polecam jego zmiany gdyż może powodować uszkodzenia wypalanych płyt. Parametr ten określa kiedy nagrywarka ma zmienić warstwę w nagrywanej płycie. 
+
+	PRĘDKOŚĆ NAGRYWANIA - do wyboru x2, x4, x8. Bezpieczną prędkością jest x2 lub x4 (sam nagrywam z tą drugą prędkością i jeszcze nie zepsułem żadnej płyty) prędkości x8 nie polecam. Wszyscy polecają nagrywanie z prędkością x2. 
+
+	TERMINAL - wybór programu emulatora terminala. Do wyboru xterm, gnome-terminal, terminator (z rxvt miałem problem więc odpuściłem implementację). Zależy od twoich preferencji (dla Ubuntu bezpieczny będzie gnome-terminal).
+
+	PRZYWRÓĆ OPCJE - przywraca wcześniejsze parametry opcji.
+
+	ZAPISZ OPCJE - zapisuje dane wartości opcji.
+
+UŻYTKOWANIE PROGRAMU.
+
+ - uruchamiamy abgx360gui i sprawdzamy obraz kopi;
+
+ - Po ustawieniu opcji, wybraniu obrazu do nagrania (obsługa .iso/.bin/.000) oraz włożenia płyty do nagrywarki DVD należy przeprowadzić test poprzez kliknięcie w zakładce 'Główne' przy opcji 'Wykonaj test' - 'Wykonaj'. Jeżeli wszystko ustawiliśmy poprawnie na wyjściu powinien ukazać się podobny komunikat:
+
+"Executing 'builtin_dd if=/media/storage/test.iso of=/dev/sr0 obs=32k seek=0'"
+
+ - Teraz możemy przystąpić do nagrywania - klikamy na 'Nagraj' i czekamy w zależności od prędkość około 25 minut (prędkość x4)
+
+ - uruchamiamy xbox'a i sprawdzamy czy obraz został poprawnie nagany. 
+
+UWAGI KOŃCOWE.
+
+ * Do nagrywania potrzebne są:
+	- nagrywarka z obsługa nagrywania płyt DVD+R DL (najlepiej marki PIONEER - sam używam 216D i ją gorąco polecam)
+	- płyty tylko !!! DVD+R DL !!! (najlepiej marki VERBATIM używam i żadnej nie udało mi się zepsuć)
+
+ * Program do nagrywania używa growisofs. Można obyć się bez graficznego interfejsu wydając polecenie:
+
+	growisofs -use-the-force-luke=dao -use-the-force-luke=break:1913760 -dvd-compat -speed=4 -Z /dev/nagrywarka=/ścieżka/do/obrazu
+
+	gdzie: 
+	-speed - prędkość nagrywania; 
+	/dev/nagrywarka - ścieżka do nagrywarki (patrz wyżej)
+	/ścieżka /do/obrazu - mówi samo za siebie
+
+ 	- aby wykonać test parametrów dodajmy: -dry-run; czyli:
+	
+	growisofs -dry-run -use-the-force-luke=dao -use-the-force-luke=break:1913760 -dvd-compat -speed=4 -Z /dev/nagrywarka=/ścieżka/do/obrazu
+
+ * Do użytkowania kopii niezbędna jest przeróbka Xbox'a - polecam oczywiście najnowszy soft (ixtreme) oraz sprawdzoną osobę do wykonania takiej przeróbki.

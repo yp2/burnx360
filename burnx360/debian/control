@@ -1,0 +1,13 @@
+Source: burnx360
+Section: graphics
+Priority: extra
+Maintainer: Daniel Dereziński <daniel.derezinski@gmail.com>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.0
+
+Package: burnx360
+Architecture: any
+Depends: python(>= 2.6.2), python-gtk2(>= 2.0), python-glade2(>= 2.14), dvd+rw-tools(>= 7.1)
+Description: Nagrywanie obrazów płyt Xbox360
+ Program do nagrywania obrazów płyt kopii zapasowych do konsoli 
+ Xbox 360. Obsługuje formaty: .iso/.bin/.000. Używa do nagrywania growisofs.

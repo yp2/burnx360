@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=burnX360
+Icon=/usr/share/burnx360/icon.png
+Comment=Nagrywanie obrazów X360.
+Exec=/usr/bin/burnx360
+Terminal=false
+Type=Application
+Categories=GTK;AudioVideo;DiscBurning;
+StartupNotify=false
+GenericName[pl_PL]=

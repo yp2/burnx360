@@ -1,0 +1,5 @@
+?package(gkonap):needs="X11" \
+        section="Applications/File Management" \
+        title="burnX360" \
+        command="/usr/bin/burnx360" \
+        icon="/usr/share/burnx360/icon.png"
