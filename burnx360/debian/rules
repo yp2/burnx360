@@ -51,7 +51,7 @@ install: build
 	
 	#Kopiowanie	
 	cp burn.sh $(CURDIR)/debian/burnx360/usr/share/burnx360/burn.sh
-	cp burn.sh $(CURDIR)/debian/burnx360/usr/share/burnx360/xgd3_burn.sh
+	cp xgd3_burn.sh $(CURDIR)/debian/burnx360/usr/share/burnx360/xgd3_burn.sh
 	cp burnx360.py $(CURDIR)/debian/burnx360/usr/share/burnx360/burnx360.py	
 	cp gui.glade $(CURDIR)/debian/burnx360/usr/share/burnx360/gui.glade
 	cp test_burn.sh $(CURDIR)/debian/burnx360/usr/share/burnx360/test_burn.sh
