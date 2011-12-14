@@ -56,6 +56,7 @@ options = {}
 d_options = {'dev_dvd': '/dev/sr0',
              'layer_break': '1913760',
              'xgd3_layer_break': '2086912',
+             'xgd3_layer_break_lt_max': '2133520',
              'truncate_size': '8547991552',
              'burn_speed': '2',
              'buffer': '32',
@@ -66,7 +67,8 @@ file_types = ['.iso', '.bin', '.000']
 
 #ZMIENIĆ NA KATALOG INSTALCYJNY DLA PROGRAMU
 burn_app_path ={'burn': os.path.expanduser('/home/daniel/git/burnx360/burnx360/burn.sh'),
-                'xgd3_burn': os.path.expanduser('/home/daniel/git/burnx360/burnx360/xgd3_burn.sh'), 
+                'xgd3_burn': os.path.expanduser('/home/daniel/git/burnx360/burnx360/xgd3_burn.sh'),
+                'xgd3_burn_lt_max': os.path.expanduser('/home/daniel/git/burnx360/burnx360/xgd3_burn_lt_max.sh'),
                 'test_burn' : os.path.expanduser('/home/daniel/git/burnx360/burnx360/test_burn.sh')}
 licence = os.path.expanduser('/home/daniel/git/burnx360/burnx360/LICENCE')
 
@@ -89,6 +91,7 @@ class Gui:
                                   'on_filechooser_clicked': self.filechooser_dialog,
                                   'on_burn_clicked': self.choose_action,
                                   'on_xgd3_burn_clicked': self.choose_action,
+                                  'on_xgd3_burn_lt_max_clicked': self.choose_action,
                                   'on_run_test_clicked': self.choose_action,
                                   'on_run_abgx360gui_clicked': self.run_abgx360_gui,
                                   'on_about_clicked': self.about_dialog})
@@ -151,24 +154,30 @@ class Gui:
         #layer_break
         adj = gtk.Adjustment(lower=0, upper=99999999, step_incr=1, page_incr=10, page_size=10)
         self.layer_break = gtk.SpinButton()
-        self.obj['table1'].attach(self.layer_break, left_attach=1, right_attach=2, top_attach=2, bottom_attach=3)
+        self.obj['table1'].attach(self.layer_break, left_attach=1, right_attach=2, top_attach=1, bottom_attach=2)
         self.layer_break.set_adjustment(adj)
         self.layer_break.show()
         
         #layer_break XGD3 bez LT-MAX
         adj = gtk.Adjustment(lower=0, upper=99999999, step_incr=1, page_incr=10, page_size=10)
         self.xgd3_layer_break = gtk.SpinButton()
-        self.obj['table1'].attach(self.xgd3_layer_break, left_attach=1, right_attach=2, top_attach=3, bottom_attach=4)
+        self.obj['table1'].attach(self.xgd3_layer_break, left_attach=1, right_attach=2, top_attach=2, bottom_attach=3)
         self.xgd3_layer_break.set_adjustment(adj)
         self.xgd3_layer_break.show()
         
-        #rozmiar dla truncate - przycięcie obrazu przed nagrywaniem
+        #layer_break XGD3 z LT-MAX
+        adj = gtk.Adjustment(lower=0, upper=99999999, step_incr=1, page_incr=10, page_size=10)
+        self.xgd3_layer_break_lt_max = gtk.SpinButton()
+        self.obj['table1'].attach(self.xgd3_layer_break_lt_max, left_attach=1, right_attach=2, top_attach=3, bottom_attach=4)
+        self.xgd3_layer_break_lt_max.set_adjustment(adj)
+        self.xgd3_layer_break_lt_max.show()
+        
+        #rozmiar dla truncate dla XGD3 bez LT-MAX - przycięcie obrazu przed nagrywaniem
         adj = gtk.Adjustment(lower=0, upper=9999999999, step_incr=1, page_incr=10, page_size=10)
         self.truncate_size = gtk.SpinButton()
         self.obj['table1'].attach(self.truncate_size, left_attach=1, right_attach=2, top_attach=4, bottom_attach=5)
         self.truncate_size.set_adjustment(adj)
         self.truncate_size.show()
-        
         
         #prędkość nagrywania
         self.burn_speeds = ['x1', 'x2', 'x4', 'x8']
@@ -205,6 +214,7 @@ class Gui:
         options['dev_dvd'] = self.dev_dvd.get_text()
         options['layer_break'] = str(int(self.layer_break.get_value()))
         options['xgd3_layer_break'] = str(int(self.xgd3_layer_break.get_value()))
+        options['xgd3_layer_break_lt_max'] = str(int(self.xgd3_layer_break_lt_max.get_value()))
         options['truncate_size'] =  str(int(self.truncate_size.get_value()))
         options['burn_speed'] = str(self.burn_speed.get_active())
         options['buffer'] =  str(int(self.buffer.get_value()))
@@ -231,6 +241,7 @@ class Gui:
         self.dev_dvd.set_text(options.get('dev_dvd', d_options['dev_dvd']))
         self.layer_break.set_value(int(options.get('layer_break', d_options['layer_break'])))
         self.xgd3_layer_break.set_value(int(options.get('xgd3_layer_break', d_options['xgd3_layer_break'])))
+        self.xgd3_layer_break_lt_max.set_value(int(options.get('xgd3_layer_break_lt_max', d_options['xgd3_layer_break_lt_max'])))
         self.truncate_size.set_value(int(options.get('truncate_size', d_options['truncate_size'])))
         self.burn_speed.set_active(int(options.get('burn_speed', d_options['burn_speed'])))
         self.buffer.set_value(int(options.get('buffer', d_options['buffer'])))
@@ -293,7 +304,6 @@ class Gui:
                                 \nUżywam domyślnych ustawień.")
     
     def choose_action(self, w, d=None):
-        #TODO: sprawdzenie ścieżki do pliku
         path = self.check_path()
         if path is True:
             self.action(self.get_w_name(w))
@@ -315,6 +325,9 @@ class Gui:
         elif act == 'xgd3_burn':
             #uruchom nagrywanie xgd3
             self.app(burn_app_path['xgd3_burn'], 'xgd3')
+        elif act == 'xgd3_burn_lt_max':
+            #uruchom nagrywanie xgd3 z lt_max
+            self.app(burn_app_path['xgd3_burn_lt_max'], 'xgd3_lt_max')
         else:
             self.dialog_error('Błąd. Nie wiem co robić.\nBłąd raczej krytyczny :(')
 
@@ -337,8 +350,6 @@ class Gui:
             
         elif iso_format == 'xgd3':
             # xgd3
-            print options
-            print app
             layer_break = options['xgd3_layer_break']
             truncate_size = options['truncate_size']
             
@@ -347,7 +358,17 @@ class Gui:
             #argumenty xgd3
             args = [app, truncate_size, layer_break, buffer, burn_speed, dev_dvd, img_path]
         
+        elif iso_format == 'xgd3_lt_max':
+            layer_break = options['xgd3_layer_break_lt_max']
+            #argumenty xgd3 z lt-max
+            args = [app, layer_break, buffer, burn_speed, dev_dvd, img_path]
+            print app
+            print options
+            
+        #utowrzenie komendy nadgrywania.
         args = ' '.join(args)
+        print args
+        #uruchomienie terminala z procesem growisofs
         if terminal == 'xterm':
             subprocess.Popen([terminal, '-bg', 'black', '-fg', 'white', '-e', args])
         else:

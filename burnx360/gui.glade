@@ -152,6 +152,9 @@ Skorzystaj z odpowiednich zak&#x142;adek aby nagra&#x107; obraz wykorzystuj&#x10
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">G&#x142;&#xF3;wne</property>
               </object>
+              <packing>
+                <property name="tab_fill">False</property>
+              </packing>
             </child>
             <child>
               <object class="GtkVBox" id="vbox3">
@@ -206,6 +209,7 @@ Jak nie jeste&#x15B; pewny/a sprawd&#x17A; w pliku .dvd.</property>
               </object>
               <packing>
                 <property name="position">1</property>
+                <property name="tab_fill">False</property>
               </packing>
             </child>
             <child>
@@ -263,13 +267,64 @@ Jak nie jeste&#x15B; pewny/a sprawd&#x17A; w pliku .dvd.</property>
               </object>
               <packing>
                 <property name="position">2</property>
+                <property name="tab_fill">False</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkVBox" id="vbox5">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label21">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">&lt;b&gt;UWAGA tylko XGD3&lt;/b&gt;
+&lt;b&gt;Metoda Z nagrywark&#x105; LT-MAX !!!&lt;/b&gt;
+Nowy formatu zapisywania danych na p&#x142;ytach. 
+Layer Break dla takich obraz&#xF3;w powinien wynosi&#x107;: 2133520. 
+Nagrywaj&#x105;c obraz tym sposobem nie zostanie zmieniony jego rozmiar. </property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                    <property name="wrap">True</property>
+                    <property name="selectable">True</property>
+                  </object>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="xgd3_image_name1">
+                    <property name="visible">True</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="xgd3_burn_lt_max">
+                    <property name="label" translatable="yes">Nagraj obraz XGD3 z LT-MAX</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_xgd3_burn_lt_max_clicked"/>
+                  </object>
+                  <packing>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">3</property>
+              </packing>
             </child>
             <child type="tab">
-              <placeholder/>
+              <object class="GtkLabel" id="label9">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">XGD3 z LT-MAX</property>
+              </object>
+              <packing>
+                <property name="position">3</property>
+                <property name="tab_fill">False</property>
+              </packing>
             </child>
             <child>
               <placeholder/>
@@ -303,30 +358,6 @@ Jak nie jeste&#x15B; pewny/a sprawd&#x17A; w pliku .dvd.</property>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
                     <property name="x_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label16">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Layer Break &lt;b&gt;XGD3&lt;/b&gt; BEZ LT-MAX:</property>
-                    <property name="use_markup">True</property>
-                  </object>
-                  <packing>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label6">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Layer Break &lt;b&gt;XGD2&lt;/b&gt;:</property>
-                    <property name="use_markup">True</property>
-                  </object>
-                  <packing>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="x_options"></property>
-                    <property name="x_padding">4</property>
                   </packing>
                 </child>
                 <child>
@@ -428,7 +459,17 @@ Jak nie jeste&#x15B; pewny/a sprawd&#x17A; w pliku .dvd.</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkLabel" id="label6">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Layer Break &lt;b&gt;XGD2&lt;/b&gt;:</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                    <property name="x_options"></property>
+                    <property name="x_padding">4</property>
+                  </packing>
                 </child>
                 <child>
                   <placeholder/>
@@ -450,6 +491,28 @@ Jak nie jeste&#x15B; pewny/a sprawd&#x17A; w pliku .dvd.</property>
                 </child>
                 <child>
                   <placeholder/>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label16">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Layer Break &lt;b&gt;XGD3&lt;/b&gt; BEZ LT-MAX:</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label8">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Layer Break &lt;b&gt;XGD3&lt;/b&gt; Z LT-MAX:</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="top_attach">3</property>
+                    <property name="bottom_attach">4</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -464,6 +527,7 @@ Jak nie jeste&#x15B; pewny/a sprawd&#x17A; w pliku .dvd.</property>
               </object>
               <packing>
                 <property name="position">5</property>
+                <property name="tab_fill">False</property>
               </packing>
             </child>
           </object>
