@@ -1,3 +1,9 @@
+burnx360 (0.3-xxx1) xxx; urgency=high
+
+  * Dodanie obsługi XGD3 dla nagrywarek z LT-MAX
+  
+ -- Daniel Derezinski <daniel.derezinski@gmail.com>  Wed, 14 Dec 2011 18:50:03 +0100
+
 burnx360 (0.2-xxx3) xxx; urgency=high
 
   * Poprawa debian/rules - kopiowanie burn.sh jak xgd3_burn.sh
