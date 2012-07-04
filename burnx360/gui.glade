@@ -327,10 +327,32 @@ Nagrywaj&#x105;c obraz tym sposobem nie zostanie zmieniony jego rozmiar. </prope
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkVBox" id="vbox6">
+                <property name="visible">True</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="position">4</property>
+              </packing>
             </child>
             <child type="tab">
-              <placeholder/>
+              <object class="GtkLabel" id="label22">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Rozpakuj - XEX</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="position">4</property>
+                <property name="tab_fill">False</property>
+              </packing>
             </child>
             <child>
               <object class="GtkTable" id="table1">
@@ -472,27 +494,6 @@ Nagrywaj&#x105;c obraz tym sposobem nie zostanie zmieniony jego rozmiar. </prope
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <object class="GtkLabel" id="label16">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Layer Break &lt;b&gt;XGD3&lt;/b&gt; BEZ LT-MAX:</property>
@@ -513,6 +514,27 @@ Nagrywaj&#x105;c obraz tym sposobem nie zostanie zmieniony jego rozmiar. </prope
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
