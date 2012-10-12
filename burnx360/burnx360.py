@@ -362,12 +362,10 @@ class Gui:
             layer_break = options['xgd3_layer_break_lt_max']
             #argumenty xgd3 z lt-max
             args = [app, layer_break, buffer, burn_speed, dev_dvd, img_path]
-            print app
-            print options
             
         #utowrzenie komendy nadgrywania.
         args = ' '.join(args)
-        print args
+
         #uruchomienie terminala z procesem growisofs
         if terminal == 'xterm':
             subprocess.Popen([terminal, '-bg', 'black', '-fg', 'white', '-e', args])
